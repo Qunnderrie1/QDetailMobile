@@ -9,6 +9,10 @@ module.exports = {
     extend: {
       colors: {
         "primary-color": "#271DDB"
+      },
+      fontSize: {
+        "section-header-size": "22px",
+        "section-header-weight": "semibold"
       }
 
     },

@@ -8,7 +8,9 @@ const RootLayout = () => {
         <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name='index' options={{ title: "Login", headerShown: false }} />
             <Stack.Screen name='signup' options={{ title: "signup", headerShown: false }} />
-            <Stack.Screen name='vehicletype' options={{ title: "Choose Vehicle Type", headerShown: true, headerBackTitle: "Home", headerStyle: { backgroundColor: "skyblue" } }} />
+            <Stack.Screen name='vehicletype' options={{ title: "Vehicle ", headerShown: true, headerBackTitle: "Home" }} />
+            <Stack.Screen name='servicedetail/[id]' options={{ title: "Service ", headerShown: true, headerBackTitle: "Home" }} />
+
 
         </Stack>
     )

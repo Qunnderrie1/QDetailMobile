@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View, ScrollView, Image, Dimensions, FlatList } from 'react-native'
-import React from 'react'
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState } from 'react'
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import Divider from '../components/Divider';
 import car from '../Images/carclean.jpg'
 import fulldetail from '../Images/fulldetail.png'
@@ -9,10 +9,11 @@ import seat from '../Images/seatshampoo.png'
 import sofa from '../Images/sofa.png'
 import logo from '../Images/logo.png'
 import { useRouter } from 'expo-router';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { fa } from '@fortawesome/free-solid-svg-icons/faMugSaucer';
 import servicesData from '../serviceData'
 import ServiceCard from '../components/ServiceCard';
+import DealsCard from '../components/DealsCard';
+import dealsData from '../components/dealsData';
+import UpcomingAppointmentCard from '../components/UpcomingAppointmentCard';
 
 
 const Home = () => {
@@ -20,51 +21,97 @@ const Home = () => {
     const router = useRouter();
 
 
-    const handleService = () => {
+    const { width } = Dimensions.get('window');
 
-        router.push("vehicletype")
+    const ITEM_WIDTH = width * 0.8;
+    const SPACING = 10;
+
+    const [activeIndex, setActiveIndex] = useState(0)
+
+    // const handleService = (id) => {
+
+    //     // router.push(`/servicedetail/${servicesData.id}`)
+    //     console.log(id)
+    // }
+
+
+
+    const handleScroll = (event) => {
+        const slideIndex = Math.round(event.nativeEvent.contentOffset.x / (ITEM_WIDTH + 10));
+        setActiveIndex(slideIndex)
+
+        console.log(slideIndex)
+
     }
 
 
 
-
-
     return (
-        <View className='flex-1 bg-gray-100'>
-
+        <View className='flex gap-4 bg-gray-100'>
             <ScrollView>
+
+                <View className='flex justify-start mt-2 px-4 py-2  '>
+                    <Text className='text-section-header-size font-semibold'>Featured Deals</Text>
+                </View>
+
                 <View className=''>
                     {/* Promotions Section */}
-                    <ScrollView horizontal className='px-4 pb-4' >
-                        <View className='flex justify-start mt-10 flex-row gap-4  '>
 
-                            <View className='bg-black w-[350px] h-[200px] mt-2 rounded-lg flex  justify-between  relative'>
-                                <Image source={car} className='w-full h-full absolute rounded-md opacity-50 z-0 object-contain' resizeMode='cover' />
-                                <View className=' flex gap-8 px-4 py-4 '>
-                                    <View>
-                                        <Text className='text-white text-[20px] font-semibold'>Book Full Interior Detail </Text>
-                                        <Text className='text-white text-[20px] font-semibold'>And Get 10% Off</Text>
-                                        <Text className='text-white mt-4'>Package: Full Interior Detail</Text>
-                                    </View>
-                                    <View className='justify-end pb-2'>
-                                        <TouchableOpacity className='bg-primary-color h-[40px] w-[100px] flex justify-center items-center rounded-lg'>
-                                            <Text className='text-white'>Book Now</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
+                    <FlatList
+                        data={dealsData}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        snapToInterval={ITEM_WIDTH + SPACING}
+                        decelerationRate="fast"
+                        onScroll={handleScroll}
+                        scrollEventThrottle={16}
+                        contentContainerStyle={{ paddingHorizontal: (width - ITEM_WIDTH) / 2 }}
+                        className=''
+                        renderItem={({ item }) =>
+                            <DealsCard title={item.title}
+                                subTitle={item.subTitle}
+                            />}
+                        keyExtractor={item => item.id}
+
+                    />
+
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            marginTop: 10,
+                        }}
+                    >
+                        {dealsData.map((_, index) => (
+                            <View
+                                key={index}
+                                style={{
+                                    width: 8,
+                                    height: 8,
+                                    borderRadius: 4,
+                                    margin: 5,
+                                    backgroundColor: activeIndex === index ? 'black' : 'gray',
+                                }}
+                            />
+                        ))}
+                    </View>
+
+                    {/* Appointment Section */}
+                    <View className='flex justify-start mt-2 px-4 py-2  '>
+                        <View>
+                            <Text className='text-black  text-section-header-size font-semibold'>Appointments</Text>
                         </View>
-                    </ScrollView>
+
+                        <UpcomingAppointmentCard />
 
 
-
-
+                    </View>
 
 
                     {/* Services Section */}
                     <View className='flex justify-start mt-2 px-4 py-4 gap-4 '>
                         <View>
-                            <Text className='text-black text-[18px] text-left font-semibold'>Category</Text>
+                            <Text className='text-black text-section-header-size text-left font-semibold'>Category</Text>
                         </View>
 
                         <View className='flex flex-row gap-10'>
@@ -99,21 +146,14 @@ const Home = () => {
                                 <Text>Funiture</Text>
                             </View>
 
-
-
                         </View>
 
-
                     </View>
-
-
-
-
 
                     {/* Quick Actions Section */}
                     <View className='flex justify-start mt-2  px-4 py-4 '>
                         <View>
-                            <Text className='text-black text-[18px] text-left font-semibold'>Our Popluar Services</Text>
+                            <Text className='text-black text-section-header-size text-left font-semibold'>Services</Text>
                         </View>
 
 
@@ -123,9 +163,17 @@ const Home = () => {
                                 data={servicesData}
                                 scrollEnabled
                                 horizontal
+                                pagingEnabled
+                                showsHorizontalScrollIndicator={false}
                                 className='py-4'
                                 renderItem={({ item }) =>
-                                    <ServiceCard title={item.title} subTitle={item.subTtile} price={item.price} image={item.image}
+                                    <ServiceCard title={item.title}
+                                        subTitle={item.subTtile}
+                                        price={item.price}
+                                        image={item.image}
+                                        duration={item.duration}
+                                        item={item.id}
+
                                     />}
                                 keyExtractor={item => item.id}
 
@@ -137,37 +185,6 @@ const Home = () => {
                     </View>
                 </View>
 
-                {/* Popluar Section */}
-                <View className='flex justify-start mt-2 px-4 py-4 gap-4 '>
-                    <View>
-                        <Text className='text-black text-[18px] text-left font-semibold'>Upcoming Appointment</Text>
-                    </View>
-
-                    <View className='bg-white gap-2 w-full h-fit rounded-lg flex flex-row  items-center justify-between shadow-sm'>
-                        <View className='flex  gap-4'>
-                            <View className='w-full'>
-                                <Image resizeMethod='resize' source={car} className='  max-w-full h-[150px]  rounded-tl-lg rounded-tr-lg' />
-                            </View>
-                            <View className='flex p-4'>
-                                <View>
-                                    <Text className='text-[18px] justify-end font-semibold'>Car Wash</Text>
-                                </View>
-                                <View className='flex flex-row items-center gap-2 '>
-                                    <Text className='text-gray-500'>Exterior Cleaning</Text>
-                                    <Text className='text-gray-500'>| </Text>
-                                    <Text className='text-gray-500'>$45</Text>
-                                </View>
-                                <View className=' pt-4'>
-                                    <TouchableOpacity className='bg-sky-400 py-2  flex justify-center items-center'>
-                                        <Text className='text-white font-semibold text-[18px]'>Book</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-
-
-                </View>
 
 
 

@@ -49,13 +49,13 @@ const Login = () => {
             </View>
 
             <View className='flex gap-8 '>
-                <TouchableOpacity onPress={handleLogin} className=' bg-blue-600 py-3 flex justify-center items-center rounded-md'>
+                <TouchableOpacity onPress={handleLogin} className=' bg-primary-color py-3 flex justify-center items-center rounded-md'>
                     <Link href={"home"} className='text-white text-[20px] font-semibold'>Login</Link>
                 </TouchableOpacity>
 
                 <View className='flex flex-row gap-2 justify-center items-center'>
                     <Text className='text-black text-[16px]'>Don't have an account?</Text>
-                    <Link href={"signup"} className='text-blue-500 text-[16px] '>Sign Up</Link>
+                    <Link href={"signup"} className='text-primary-color text-[16px] font-semibold '>Sign Up</Link>
                 </View>
             </View>
 
