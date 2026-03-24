@@ -41,4 +41,4 @@ yarn-error.*
 /android
 
 # Senstive Data
-.env
+app/.env
