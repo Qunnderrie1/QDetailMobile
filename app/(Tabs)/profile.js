@@ -1,10 +1,10 @@
 import { Pressable, StyleSheet, Text, TouchableOpacity, View, Image, safe } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from 'expo-router'
 import profilePic from '../Images/que.jpg'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from "@expo/vector-icons";
-import { launchCameraAsync, launchImageLibraryAsync } from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const profile = () => {
@@ -12,18 +12,38 @@ const profile = () => {
 
     const navigation = useNavigation()
 
+    const [image, setImage] = useState(null)
+
     // User Upload Profile Photo Method
-    const handleImageLibraryLaunch = () => {
-        launchImageLibrary({ mediaTypes: 'photo' }, (res) => {
-            if (res.assets) {
-                console.log(res.assets[0].uri)
-            }
+    const pickImage = async () => {
+        // ask for permission
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+
+        if (!permissionResult.granted) {
+            alert("Permission to access gallery is required!")
+            return;
+        }
+
+
+        // Open image picker
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaType,
+            allowsEditing: false,
+            aspect: [4, 3],
+            quality: 1,
         })
+
+        // If user didn't cancel
+        if (!result.canceled) {
+            setImage(result.assets[0].uri)
+        }
+
     }
 
     // Logout User Account Method
     const handleUploadProfilePhoto = () => {
-        handleImageLibraryLaunch()
+        pickImage()
 
     }
 
