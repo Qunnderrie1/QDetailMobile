@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Pressable } from 'react-native'
 import React from 'react'
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
@@ -48,13 +48,13 @@ const UpcomingAppointmentCard = () => {
 
             {/* Buttons */}
             <View className="mt-5 flex-row gap-x-3">
-                <TouchableOpacity className="flex-1 items-center rounded-2xl bg-primary-color py-3.5">
+                <Pressable className="flex-1 items-center rounded-2xl bg-primary-color py-3.5">
                     <Text className="font-semibold text-white">View Details</Text>
-                </TouchableOpacity>
+                </Pressable>
 
-                <TouchableOpacity className="flex-1 items-center rounded-2xl bg-zinc-100 py-3.5">
+                <Pressable className="flex-1 items-center rounded-2xl bg-zinc-100 py-3.5">
                     <Text className="font-semibold text-zinc-900">Reschedule</Text>
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </View>
     )

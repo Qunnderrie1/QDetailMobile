@@ -23,9 +23,9 @@ const TabLayout = () => {
                     <Ionicons name="car-outline" size={size} color={color} />
                 ),
             }} />
-            <Tabs.Screen name="cart" options={{
-                title: "Cart", headerShown: false, headerBackButtonDisplayMode: false, tabBarIcon: ({ size, color }) => (
-                    <Ionicons name="cart-outline" size={size} color={color} />
+            <Tabs.Screen name="bookings" options={{
+                title: "Booking", headerShown: false, headerBackButtonDisplayMode: false, tabBarIcon: ({ size, color }) => (
+                    <Ionicons name="calendar-outline" size={size} color={color} />
                 ),
             }} />
 

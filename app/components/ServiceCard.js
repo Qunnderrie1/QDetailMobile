@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native'
 import React from 'react'
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useRouter } from 'expo-router';
@@ -29,9 +29,9 @@ const Servicecard = ({ title, subTitle, price, image, handleService, duration, i
                     </View>
                 </View>
                 <View className=' pt-4 '>
-                    <TouchableOpacity onPress={() => router.push(`/servicedetail/${item}`)} className='bg-primary-color  py-2  flex justify-center items-center'>
+                    <Pressable onPress={() => router.push(`/servicedetail/${item}`)} className='bg-primary-color  py-2  flex justify-center items-center'>
                         <Text className='text-white font-semibold text-[18px]'>Book</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                 </View>
             </View>
         </View>

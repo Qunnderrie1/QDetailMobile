@@ -1,7 +1,6 @@
-import { Text, TouchableOpacity, View, ScrollView, Image, Dimensions, FlatList } from 'react-native'
+import { Text, View, ScrollView, Image, Dimensions, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import Divider from '../components/Divider';
 import car from '../Images/carclean.jpg'
 import fulldetail from '../Images/fulldetail.png'
 import clean from '../Images/clean.png'
@@ -14,6 +13,7 @@ import ServiceCard from '../components/ServiceCard';
 import DealsCard from '../components/DealsCard';
 import dealsData from '../components/dealsData';
 import UpcomingAppointmentCard from '../components/UpcomingAppointmentCard';
+
 
 
 const Home = () => {
@@ -184,8 +184,6 @@ const Home = () => {
 
                     </View>
                 </View>
-
-
 
 
             </ScrollView >
