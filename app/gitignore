@@ -41,5 +41,7 @@ yarn-error.*
 .env
 .env.*
 
-Constants
+./app/Constants.js
+Constants.*git st
 Constants.*
+Constants
