@@ -40,3 +40,6 @@ yarn-error.*
 /app/.env
 .env
 .env.*
+
+Constants
+Constants.*

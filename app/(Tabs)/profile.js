@@ -1,18 +1,20 @@
-import { Pressable, StyleSheet, Text, TouchableOpacity, View, Image, safe } from 'react-native'
+import { Pressable, StyleSheet, Text, TouchableOpacity, View, Image, Alert } from 'react-native'
 import React, { useState } from 'react'
-import { useNavigation } from 'expo-router'
+import { useNavigation, useRouter } from 'expo-router'
 import profilePic from '../Images/que.jpg'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
-
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase/firebase.config';
 
 const profile = () => {
 
 
-    const navigation = useNavigation()
+    const router = useRouter()
 
     const [image, setImage] = useState(null)
+    const [user, setUser] = useState({ auth })
 
     // User Upload Profile Photo Method
     const pickImage = async () => {
@@ -49,14 +51,23 @@ const profile = () => {
 
 
     // Logout User Account Method
-    const handleLogout = () => {
-        navigation.navigate("index")
+    const handleLogout = async () => {
+
+        try {
+            await signOut(auth)
+            user(null)
+            router.push("index")
+
+        } catch (error) {
+            Alert.alert("Logout Failed", error.message)
+
+        }
     }
 
 
     // Delete User Account Method
     const handleAccount = () => {
-        navigation.navigate("index")
+
     }
 
 

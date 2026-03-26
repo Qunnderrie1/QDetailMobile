@@ -1,21 +1,33 @@
 import { Link, useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import logo from '../assets/logo.png'
+import { createUserWithEmailAndPassword, signInWithCredential, signOut } from 'firebase/auth'
+import { auth } from './firebase/firebase.config'
 const SignUp = () => {
 
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")
+    const [user, setUser] = useState(null)
 
     const router = useRouter()
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
 
-        router.push("/home")
+        try {
+
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            setUser(userCredential.user)
+            Alert.alert("Success", "Account Created");
+            router.push("index")
+        } catch (error) {
+            Alert.alert("Signup Error", error.message)
+        }
+
 
     }
 

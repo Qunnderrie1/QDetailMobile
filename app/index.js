@@ -4,29 +4,38 @@ import { useState } from 'react';
 import { Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import logo from '../assets/logo.png'
-
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from './firebase/firebase.config'
 const Login = () => {
+
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
+    const [username, setUserName] = useState("")
+    const [user, setUser] = useState(null)
 
     const router = useRouter()
 
+    const handleLogin = async () => {
 
-    const handleLogin = () => {
+        try {
 
-        router.push("/home")
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            setUser(userCredential.user)
+            Alert.alert("Success", "User has logged in.");
+            router.push("index")
+        } catch (error) {
+            Alert.alert("Login Error", error.message)
+        }
+
 
     }
-
-
 
 
     return (
         <View className=' bg-white container flex-1 justify-center px-10 gap-10'>
             <View className='flex justify-center items-center'>
-                <Image source={logo} className='w-[150px] h-[150px]' />
+                <Image source={logo} className='w-[100px] h-[100px]' />
             </View>
             <View className=''>
                 <Text className='text-black text-[40px] font-bold'>Login</Text>
@@ -37,13 +46,13 @@ const Login = () => {
                 <View className='flex gap-2'>
                     <Text>Email Address</Text>
                     <View className='rounded-md '>
-                        <TextInput value={email} onChangeText={setEmail} className=' mt-1 pl-4 py-4 bg-gray-200  mb-4 rounded-md ' placeholder='Email Address'></TextInput>
+                        <TextInput value={email} onChangeText={setEmail} keyboardType='email-address' className=' mt-1 pl-4 py-4 border-[1.2px] border-solid border-gray-500 focus:border-blue-500 focus:border-[1.6px] mb-4 rounded-md ' ></TextInput>
                     </View>
                 </View>
                 <View className='flex gap-2'>
                     <Text>Password</Text>
                     <View className='rounded-md'>
-                        <TextInput value={password} onChangeText={setPassword} secureTextEntry className=' mt-1 pl-4 py-4 bg-gray-200  mb-4 rounded-md ' placeholder='Password'></TextInput>
+                        <TextInput value={password} onChangeText={setPassword} secureTextEntry className=' mt-1 pl-4 py-4  border-[1.2px]  border-solid border-gray-500 focus:border-blue-500 focus:border-[1.6px]  mb-4 rounded-md ' ></TextInput>
                     </View>
                 </View>
             </View>

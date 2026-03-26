@@ -1,22 +1,21 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 
-
+import { API_KEY, AUTH_DOMAIN, MESSAGING_SENDER_ID, APP_ID, PROJECT_ID, STORAGE_BUCKET } from '../Constants'
 
 
 
 const firebaseConfig = {
-    apiKey: process.env.EXPO_PUBLIC_API_KEY,
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSendId: "",
-    appId: "",
+    apiKey: API_KEY,
+    authDomain: AUTH_DOMAIN,
+    projectId: PROJECT_ID,
+    storageBucket: STORAGE_BUCKET,
+    messagingSendId: MESSAGING_SENDER_ID,
+    appId: APP_ID,
 }
 
 const app = initializeApp(firebaseConfig);
 
 
-console.log(process.env.EXPO_PUBLIC_API_KEY)
 
-export const db = getFirestore(app)
+export const auth = getAuth(app)
