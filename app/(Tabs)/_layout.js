@@ -3,13 +3,15 @@ import React from 'react'
 import { Tabs } from 'expo-router'
 import { Ionicons } from "@expo/vector-icons";
 import CustomHeader from '../components/CustomHeader';
+import { StatusBar } from 'expo-status-bar';
+
 
 
 const TabLayout = () => {
     return (
         <Tabs screenOptions={{ headerShown: false, headerBackButtonDisplayMode: false }}>
             <Tabs.Screen name="home" options={{
-                title: "Home", headerShown: true, header: (props) => <CustomHeader {...props} />, tabBarIcon: ({ size, color }) => (
+                title: "Home", headerShown: true , header: (props) => <CustomHeader {...props} />, tabBarIcon: ({ size, color }) => (
                     <Ionicons name="home-outline" size={size} color={color} />
                 ),
             }} />
@@ -19,7 +21,7 @@ const TabLayout = () => {
                 ),
             }} />
             <Tabs.Screen name="services" options={{
-                title: "Services", headerShown: true, headerStyle: { backgroundColor: "skyblue" }, headerBackButtonDisplayMode: true, tabBarIcon: ({ size, color }) => (
+                title: "Services", headerShown: false , headerBackButtonDisplayMode: true, tabBarIcon: ({ size, color }) => (
                     <Ionicons name="car-outline" size={size} color={color} />
                 ),
             }} />
@@ -28,7 +30,7 @@ const TabLayout = () => {
                     <Ionicons name="calendar-outline" size={size} color={color} />
                 ),
             }} />
-
+            <StatusBar style='light' />
         </Tabs>
     )
 }

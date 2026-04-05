@@ -2,17 +2,15 @@ import { StyleSheet, Text, View, TouchableOpacity, Pressable } from 'react-nativ
 import React from 'react'
 import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 
-const UpcomingAppointmentCard = () => {
+const UpcomingAppointmentCard = ({service , time , city, state, vehicle , address , status, date }) => {
     return (
-        <View className="mx-1 mt-5 rounded-md bg-white p-5 shadow-sm">
+        <View className="mx-3 mt-1 w-[300px] rounded-md bg-white p-5 shadow-sm">
             {/* Top Row */}
             <View className="mb-4 flex-row items-center justify-between">
-                <Text className=" text-xl font-extrabold text-zinc-900">
-                    Full Interior & Exterior Detail
-                </Text>
+                <Text className=" text-xl font-extrabold text-zinc-900">{service}</Text>
                 <View className="rounded-full bg-[#e1e0fc] px-3 py-1">
                     <Text className="text-xs font-semibold text-primary-color">
-                        Confirmed
+                        {status}
                     </Text>
                 </View>
 
@@ -25,24 +23,24 @@ const UpcomingAppointmentCard = () => {
             <View className="gap-y-3">
                 <View className="flex-row items-center">
                     <MaterialIcons name="calendar-today" size={18} color="#271DDB" />
-                    <Text className="ml-3 text-sm text-zinc-600">March 28, 2026</Text>
+                    <Text className="ml-3 text-sm text-zinc-600">{date}</Text>
                 </View>
 
                 <View className="flex-row items-center">
                     <MaterialIcons name="access-time" size={18} color="#271DDB" />
-                    <Text className="ml-3 text-sm text-zinc-600">10:30 AM</Text>
+                    <Text className="ml-3 text-sm text-zinc-600">{time}</Text>
                 </View>
 
                 <View className="flex-row items-center">
                     <FontAwesome5 name="map-marker-alt" size={16} color="#271DDB" />
                     <Text className="ml-3 flex-1 text-sm text-zinc-600">
-                        123 Main Street, Columbus, GA
+                        {address}
                     </Text>
                 </View>
 
                 <View className="flex-row items-center">
                     <FontAwesome5 name="car-side" size={16} color="#271DDB" />
-                    <Text className="ml-3 text-sm text-zinc-600">2021 Dodge Charger</Text>
+                    <Text className="ml-3 text-sm text-zinc-600">{vehicle}</Text>
                 </View>
             </View>
 

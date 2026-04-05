@@ -1,18 +1,23 @@
 import { Link } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { Text, TextInput, View, TouchableOpacity, Image, Alert, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
-import logo from '../assets/logo.png'
+import logo from './Images/logo.png'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from './firebase/firebase.config'
-const Login = () => {
+
+
+
+const LoginScreen = () => {
 
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")
     const [user, setUser] = useState(null)
+
+    
 
     const router = useRouter()
 
@@ -22,12 +27,14 @@ const Login = () => {
 
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setUser(userCredential.user)
-            Alert.alert("Success", "User has logged in.");
-            router.push("index")
+            router.push("home")
+            console.log(router.push("home"))
+            setEmail("")
+            setPassword("")
         } catch (error) {
             Alert.alert("Login Error", error.message)
+             
         }
-
 
     }
 
@@ -58,9 +65,9 @@ const Login = () => {
             </View>
 
             <View className='flex gap-8 '>
-                <TouchableOpacity onPress={handleLogin} className=' bg-primary-color py-3 flex justify-center items-center rounded-md'>
-                    <Link href={"home"} className='text-white text-[20px] font-semibold'>Login</Link>
-                </TouchableOpacity>
+                <Pressable onPress={handleLogin} className=' bg-primary-color py-3 flex justify-center items-center rounded-md'>
+                    <Text className='text-white text-[20px] font-semibold '>Login</Text>
+                </Pressable>
 
                 <View className='flex flex-row gap-2 justify-center items-center'>
                     <Text className='text-black text-[16px]'>Don't have an account?</Text>
@@ -73,4 +80,4 @@ const Login = () => {
     );
 }
 
-export default Login
+export default LoginScreen

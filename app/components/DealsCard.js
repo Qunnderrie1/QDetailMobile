@@ -9,8 +9,8 @@ const DealsCard = ({ title, subTitle }) => {
                 <Image source={car} className='w-full h-full absolute rounded-[20px] opacity-20 z-0 object-contain' resizeMode='cover' />
                 <View className=' flex gap-8 px-4 py-4 '>
                     <View>
-                        <Text className='text-white text-[32px] font-semibold'>{title} </Text>
-                        <Text className='text-white text-[30px] '>{subTitle}</Text>
+                        <Text className='text-white text-[24px] font-semibold'>{title} </Text>
+                        <Text className='text-white text-[24px] '>{subTitle}</Text>
                     </View>
                 </View>
             </View>

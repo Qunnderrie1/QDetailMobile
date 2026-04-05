@@ -3,9 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-import logo from '../assets/logo.png'
+import logo from './Images/logo.png'
 import { createUserWithEmailAndPassword, signInWithCredential, signOut } from 'firebase/auth'
-import { auth } from './firebase/firebase.config'
+import { auth, db } from './firebase/firebase.config'
+import { doc , setDoc,  } from 'firebase/firestore'
+
+
+
+
 const SignUp = () => {
 
 
@@ -21,7 +26,14 @@ const SignUp = () => {
         try {
 
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            setUser(userCredential.user)
+            const user = userCredential.user
+
+            await setDoc(doc(db , "users" , user.uid) , {
+                username: username,
+                role: "user",
+                profileImage: "",
+                createdAt: new Date()
+            });
             Alert.alert("Success", "Account Created");
             router.push("index")
         } catch (error) {

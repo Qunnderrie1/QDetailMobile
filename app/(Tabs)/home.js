@@ -1,5 +1,5 @@
 import { Text, View, ScrollView, Image, Dimensions, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { use, useContext, useEffect, useState } from 'react'
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import car from '../Images/carclean.jpg'
 import fulldetail from '../Images/fulldetail.png'
@@ -13,12 +13,38 @@ import ServiceCard from '../components/ServiceCard';
 import DealsCard from '../components/DealsCard';
 import dealsData from '../components/dealsData';
 import UpcomingAppointmentCard from '../components/UpcomingAppointmentCard';
-
-
+import { collectionGroup, doc , getDoc, setDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { db } from '../firebase/firebase.config';
+import appointments from '../Data/Appointments.js'
+import { StatusBar } from 'expo-status-bar';
 
 const Home = () => {
 
     const router = useRouter();
+
+    const [user, setUser] = useState(null)
+ 
+  
+       const fetchUser = async () => {
+  
+          const auth = getAuth();
+          const activeUser = auth.currentUser
+  
+          if(!user) return;
+  
+          const docRef  = doc(db , "users" , activeUser.uid)
+          const docSnap = await getDoc(docRef)
+  
+          if(docSnap.exists()){
+              setUser(docSnap.data())
+          }
+              
+          }
+  
+      useEffect(() => {
+          fetchUser()
+      }, [])
 
 
     const { width } = Dimensions.get('window');
@@ -39,8 +65,6 @@ const Home = () => {
     const handleScroll = (event) => {
         const slideIndex = Math.round(event.nativeEvent.contentOffset.x / (ITEM_WIDTH + 10));
         setActiveIndex(slideIndex)
-
-        console.log(slideIndex)
 
     }
 
@@ -102,8 +126,40 @@ const Home = () => {
                             <Text className='text-black  text-section-header-size font-semibold'>Appointments</Text>
                         </View>
 
-                        <UpcomingAppointmentCard />
 
+                            {/* Service Section */}
+                        <View className=''>
+                            {
+                                appointments.length > 0 ?  <FlatList
+                                data={appointments}
+                                scrollEnabled
+                                horizontal
+                                pagingEnabled
+                                showsHorizontalScrollIndicator={false}
+                                onScroll={handleScroll}
+                                scrollEventThrottle={4}
+                                contentContainerStyle={{ paddingHorizontal: (width - ITEM_WIDTH) / 6 }}
+                                className='py-4'
+                                renderItem={({ item }) =>
+                                   <UpcomingAppointmentCard 
+                                service={item.service}
+                                time={item.time}
+                                address={item.address}
+                                vehicle={item.vehicle}
+                                status={item.status[0]}
+                                date={item.date}
+                                 />}
+                                keyExtractor={item => item.id}
+
+                            /> : <View className='bg-white h-[200px] w-full mt-4 rounded-md flex justify-center items-center'>
+                                <View><Text className='font-light'>No Appointments</Text></View>
+                            </View>
+
+
+
+                            }
+                           
+                        </View>
 
                     </View>
 
@@ -187,7 +243,7 @@ const Home = () => {
 
 
             </ScrollView >
-
+            <StatusBar style='light' />
         </View >
     )
 }
